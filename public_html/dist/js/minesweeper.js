@@ -314,6 +314,9 @@
           }
 
           if(tile.mined) {
+            console.log('you have been eated by a Trex');
+            ms.pauseClock()
+
             // make all mined tiles burn hahah
             for(var i = 0; i < ms.tiles.length; i++) {
               for(var j = 0; j < ms.tiles[i].length; j++) {
@@ -326,7 +329,7 @@
             }
 
             setTimeout(function(){
-            ms.$container.find(".exploding").removeClass("exploding").addClass("exploded");
+              ms.$container.find(".exploding").removeClass("exploding").addClass("exploded");
             }, 1200);
           }
           else if(tile.minesAround === 0) {
@@ -338,6 +341,7 @@
 
           if(ms.checkVictory()) {
             console.log("victory");
+            ms.stopClock();
           }
         }
       };
@@ -456,6 +460,15 @@
           }
           ms.$container.find(".time").text(minutes + ":" + seconds);
         }, 1000);
+      };
+
+      this.pauseClock = function() {
+        clearInterval(ms.clock);
+      };
+
+      this.resetClock = function() {
+        ms.pauseClock();
+        ms.$container.find(".time").text("00:00");
       };
 
       this.init();
