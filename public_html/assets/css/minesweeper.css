@@ -1,3 +1,12 @@
+* {
+  margin:0;
+  padding:0;
+}
+#ms {
+  width: 600px;
+  height: 600px;
+  margin: auto;
+}
 .tiles {
     clear:both;
     display:table;
@@ -28,7 +37,7 @@
     background:orange;
 }
 .tiles .row .tile.exploding {
-    background:url("ms_images/explosion.gif") no-repeat 50% #000;
+    background:url("../../assets/images/explosion.gif") no-repeat 50% #000;
 }
 .tiles .row .tile.exploded {
     background:red;
@@ -45,7 +54,7 @@
 }
 .header .title {
     font-size:20px;
-    padding:10px 0;    
+    padding:10px 0;
 }
 .header .menu-toggle button {
     border:none;
@@ -70,12 +79,12 @@
     text-align: right;
 }
 .header .nbMines {
-    background:url("ms_images/nb_mines.png") no-repeat 0 50%;
+    background:url("../../assets/images/nb_mines.png") no-repeat 0 50%;
     padding-left:45px;
     font-size:22px;
 }
 .header .time {
-    background:url("ms_images/clock.png") no-repeat 0 50%;
+    background:url("../../assets/images/clock.png") no-repeat 0 50%;
     padding-left:35px;
     font-size:22px;
 }

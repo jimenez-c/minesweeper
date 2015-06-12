@@ -228,6 +228,7 @@
         return false;
       };
 
+      // Reveal all
       this.revealAll = function(initialTile) {
         var tileToProcess = initialTile;
         var tilesToProcess = [];

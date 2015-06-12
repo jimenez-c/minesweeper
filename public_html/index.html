@@ -1,36 +1,26 @@
 <!DOCTYPE html>
-
 <html>
-    <head>
-        <title>Minesweeper Jquery</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="minesweeper.css" />
-        <style>
-            * {
-                margin:0;
-                padding:0;
-            }
-            #ms {
-                width:600px;
-                height:600px;
-                margin:auto;
-            }
-        </style>
-    </head>
-    <body>
-        <div id="ms"></div>
-        
-        <script type="text/javascript" src="jquery-1.11.3.min.js"></script>
-        <script type="text/javascript" src="minesweeper.js"></script>
-        <script type="text/javascript">
-            $(function(){
-                resize();
-                $("#ms").minesweeper();
-            });
-            function resize() {
-                $("#ms")
-            }
-        </script>
-    </body>
+  <head>
+    <title>Minesweeper Jquery</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/minesweeper.css" />
+  </head>
+
+  <body>
+    <div id="ms"></div>
+
+    <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="assets/js/minesweeper.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        resize();
+        $("#ms").minesweeper();
+      });
+
+      function resize() {
+        $("#ms")
+      }
+    </script>
+  </body>
 </html>
