@@ -26,55 +26,11 @@
 
     var Minesweeper = function($container, options) {
       var ms = this;
-
+      
       this.settings = $.extend({
         // These are the defaults.
         difficulty: 'medium'
       }, options );
-
-      this.tiles = [];
-      this.$container = $container;
-      this.clock = null;
-      this.seconds = 0;
-      this.presets = {
-        'easy': {
-          nbTilesX: 5,
-          nbTilesY: 5,
-          nbMines: 7
-        },
-        'medium': {
-          nbTilesX: 10,
-          nbTilesY: 10,
-          nbMines: 15
-        },
-        'hard': {
-          nbTilesX: 20,
-          nbTilesY: 20,
-          nbMines: 30
-        }
-      };
-
-      if(typeof this.presets[this.settings.difficulty] === "undefined") {
-        this.settings.difficulty = 'medium';
-      }
-
-      // TODO: Make a function for this ugly conditions
-      if(
-        Number.isInteger( this.settings.nbTilesX ) && this.settings.nbTilesX > 4 && this.settings.nbTilesX < 21
-        && Number.isInteger( this.settings.nbTilesY ) && this.settings.nbTilesY > 4 && this.settings.nbTilesY < 21
-        && Number.isInteger( this.settings.nbMines ) && this.settings.nbMines > 0 && this.settings.nbMines < (this.settings.nbTilesX * this.settings.nbTilesY)
-        )
-      {
-        this.nbTilesX = this.settings.nbTilesX;
-        this.nbTilesY = this.settings.nbTilesY;
-        this.nbMines = this.settings.nbMines;
-      }
-      else {
-        this.nbTilesX = this.presets[this.settings.difficulty].nbTilesX;
-        this.nbTilesY = this.presets[this.settings.difficulty].nbTilesY;
-        this.nbMines = this.presets[this.settings.difficulty].nbMines;
-      }
-
 
       this.draw = function() {
         var containerWidth = ms.$container.width();
@@ -88,6 +44,8 @@
         else {
           tileSize = containerHeight / ms.nbTilesY;
         }
+        
+        console.log(ms.nbTilesY);
 
         for(var i = 0; i < ms.nbTilesY; i++) {
           for(var j = 0; j < ms.nbTilesX; j++) {
@@ -118,11 +76,8 @@
         })
         .fail(function() {
           console.log("error");
-        })
-        .always(function() {
-          console.log("complete");
         });
-      }
+      };
 
       // Make menu
       this.makeMenu = function() {
@@ -135,13 +90,25 @@
           var $menu = $(data);
           $menu.hide();
           $container.find(".tiles").append($menu);
-        })
-        .fail(function() {
-          console.log("error");
-        })
-        .always(function() {
-          console.log("complete");
+          
+          // bind difficulty to form
+          $menu.find('input[name="difficulty"]').prop('checked', false).on('change', function() {
+            ms.settings.difficulty = $(this).val();
+          });
+          $menu.find('input[name="difficulty"][value="' + ms.settings.difficulty + '"]').prop('checked', 'checked');
+          
+          // on restart...
+          $menu.find('button#restart').on('click', function(){
+            ms.destroy();
+            ms.init();
+            ms.draw();
+          });
+          
         });
+      };
+      
+      this.destroy = function() {
+        ms.$container.empty();
       };
 
       // Show Menu
@@ -157,6 +124,51 @@
 
       // Make tiles
       this.init = function() {
+
+        this.tiles = [];
+        this.$container = $container;
+        clearTimeout(this.clock);
+        this.clock = null;
+        this.seconds = 0;
+        this.presets = {
+          'easy': {
+            nbTilesX: 5,
+            nbTilesY: 5,
+            nbMines: 7
+          },
+          'medium': {
+            nbTilesX: 10,
+            nbTilesY: 10,
+            nbMines: 15
+          },
+          'hard': {
+            nbTilesX: 20,
+            nbTilesY: 20,
+            nbMines: 30
+          }
+        };
+
+        if(typeof this.presets[this.settings.difficulty] === "undefined") {
+          this.settings.difficulty = 'medium';
+        }
+
+        // TODO: Make a function for this ugly conditions
+        if(
+          Number.isInteger( this.settings.nbTilesX ) && this.settings.nbTilesX > 4 && this.settings.nbTilesX < 21
+          && Number.isInteger( this.settings.nbTilesY ) && this.settings.nbTilesY > 4 && this.settings.nbTilesY < 21
+          && Number.isInteger( this.settings.nbMines ) && this.settings.nbMines > 0 && this.settings.nbMines < (this.settings.nbTilesX * this.settings.nbTilesY)
+          )
+        {
+          this.nbTilesX = this.settings.nbTilesX;
+          this.nbTilesY = this.settings.nbTilesY;
+          this.nbMines = this.settings.nbMines;
+        }
+        else {
+          this.nbTilesX = this.presets[this.settings.difficulty].nbTilesX;
+          this.nbTilesY = this.presets[this.settings.difficulty].nbTilesY;
+          this.nbMines = this.presets[this.settings.difficulty].nbMines;
+        }
+      
         $container.append('<div class="tiles"></div>');
 
         for(var i = 0; i < this.nbTilesY; i++) {
