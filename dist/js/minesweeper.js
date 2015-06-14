@@ -26,7 +26,7 @@
 
     var Minesweeper = function($container, options) {
       var ms = this;
-      
+
       this.settings = $.extend({
         // These are the defaults.
         difficulty: 'medium'
@@ -44,8 +44,6 @@
         else {
           tileSize = containerHeight / ms.nbTilesY;
         }
-        
-        console.log(ms.nbTilesY);
 
         for(var i = 0; i < ms.nbTilesY; i++) {
           for(var j = 0; j < ms.nbTilesX; j++) {
@@ -90,23 +88,23 @@
           var $menu = $(data);
           $menu.hide();
           $container.find(".tiles").append($menu);
-          
+
           // bind difficulty to form
           $menu.find('input[name="difficulty"]').prop('checked', false).on('change', function() {
             ms.settings.difficulty = $(this).val();
           });
           $menu.find('input[name="difficulty"][value="' + ms.settings.difficulty + '"]').prop('checked', 'checked');
-          
+
           // on restart...
           $menu.find('button#restart').on('click', function(){
             ms.destroy();
             ms.init();
             ms.draw();
           });
-          
+
         });
       };
-      
+
       this.destroy = function() {
         ms.$container.empty();
       };
@@ -116,9 +114,13 @@
         var $menu = ms.$container.find(".menu");
         if($menu.is(":visible")) {
           $menu.fadeOut();
+          // restart clock
+          ms.startClock();
         }
         else {
           $menu.fadeIn();
+          // stop clock
+          ms.pauseClock();
         }
       };
 
@@ -168,7 +170,7 @@
           this.nbTilesY = this.presets[this.settings.difficulty].nbTilesY;
           this.nbMines = this.presets[this.settings.difficulty].nbMines;
         }
-      
+
         $container.append('<div class="tiles"></div>');
 
         for(var i = 0; i < this.nbTilesY; i++) {
@@ -458,6 +460,7 @@
 
       this.resetClock = function() {
         ms.pauseClock();
+        ms.seconds = 0;
         ms.$container.find(".time").text("00:00");
       };
 
