@@ -227,6 +227,7 @@
         var tilesProcessed = 0;
 
         do {
+          ms.revealingAll = true;
           var tilesAround = ms.getTilesAround(tileToProcess);
 
           for(var i = 0; i < tilesAround.length; i++) {
@@ -261,16 +262,54 @@
         }
 
         while(tilesToProcess.length > 0);
+        ms.revealingAll = false;
       };
 
       this.revealTile = function(tile) {
+
         var $tile = tile.$tile;
+
         if( ! $tile.hasClass("flagged")) {
-          if(tile.minesAround > 0) {
-            tile.$tile.html(tile.minesAround);
+
+          if( ! ms.clock) {
+            ms.startClock();
+            ms.placeMines(tile);
           }
 
-          tile.$tile.addClass("revealed");
+          if(tile.mined) {
+            console.log('you have been eated by a Trex');
+            ms.pauseClock();
+
+            // make all mined tiles burn hahah
+            for(var i = 0; i < ms.tiles.length; i++) {
+              for(var j = 0; j < ms.tiles[i].length; j++) {
+                var thisTile = ms.tiles[i][j];
+
+                if(thisTile.mined) {
+                  thisTile.$tile.addClass("exploding");
+                }
+              }
+            }
+
+            setTimeout(function(){
+              ms.$container.find(".exploding").removeClass("exploding").addClass("exploded");
+            }, 1200);
+          }
+          else if(tile.minesAround === 0 && ! ms.revealingAll) {
+            ms.revealAll(tile);
+          }
+          else {
+            if(tile.minesAround > 0) {
+              tile.$tile.html(tile.minesAround);
+            }
+
+            tile.$tile.addClass("revealed");
+          }
+
+          if(ms.checkVictory()) {
+            console.log("victory");
+            ms.stopClock();
+          }
         }
       };
 
@@ -297,45 +336,8 @@
 
       this.click = function() {
         var $tile = $(this);
-        if( ! $tile.hasClass("flagged")) {
-          var tile = $tile.data("tile");
-
-          if( ! ms.clock) {
-            ms.startClock();
-            ms.placeMines(tile);
-          }
-
-          if(tile.mined) {
-            console.log('you have been eated by a Trex');
-            ms.pauseClock()
-
-            // make all mined tiles burn hahah
-            for(var i = 0; i < ms.tiles.length; i++) {
-              for(var j = 0; j < ms.tiles[i].length; j++) {
-                var thisTile = ms.tiles[i][j];
-
-                if(thisTile.mined) {
-                  thisTile.$tile.addClass("exploding");
-                }
-              }
-            }
-
-            setTimeout(function(){
-              ms.$container.find(".exploding").removeClass("exploding").addClass("exploded");
-            }, 1200);
-          }
-          else if(tile.minesAround === 0) {
-            ms.revealAll(tile);
-          }
-          else {
-            ms.revealTile(tile);
-          }
-
-          if(ms.checkVictory()) {
-            console.log("victory");
-            ms.stopClock();
-          }
-        }
+        var tile = $tile.data("tile");
+        ms.revealTile(tile);
       };
 
       this.checkVictory = function() {
