@@ -32,9 +32,14 @@
         difficulty: 'medium'
       }, options );
 
+
+      /**
+       * [draw description]
+       * @return {[type]}
+       */
       this.draw = function() {
         var containerWidth = ms.$container.width();
-        var containerHeight = ms.$container.height() - ms.$container.find(".header").outerHeight() - 10;
+        var containerHeight = ms.$container.height() - ms.$container.find('.header').outerHeight() - 10;
 
         var containerMin = Math.min(containerWidth, containerHeight);
         var tileSize = 0;
@@ -56,7 +61,7 @@
             });
           }
         }
-        ms.$container.find(".header").width(ms.$container.find(".tiles").width());
+        ms.$container.find('.header').width(ms.$container.find('.tiles').width());
       };
 
       // Make header
@@ -68,12 +73,12 @@
         })
         .done(function(data) {
           var $header = $(data);
-          $header.find(".nbMines").text( ms.nbMines );
-          $header.find("button").on("click", ms.showMenu);
+          $header.find('.nbMines').text( ms.nbMines );
+          $header.find('button').on('click', ms.showMenu);
           $container.prepend($header);
         })
         .fail(function() {
-          console.log("error");
+          console.log('error');
         });
       };
 
@@ -87,7 +92,7 @@
         .done(function(data) {
           var $menu = $(data);
           $menu.hide();
-          $container.find(".tiles").append($menu);
+          $container.find('.tiles').append($menu);
 
           // bind difficulty to form
           $menu.find('input[name="difficulty"]').prop('checked', false).on('change', function() {
@@ -111,8 +116,8 @@
 
       // Show Menu
       this.showMenu = function() {
-        var $menu = ms.$container.find(".menu");
-        if($menu.is(":visible")) {
+        var $menu = ms.$container.find('.menu');
+        if($menu.is(':visible')) {
           $menu.fadeOut();
           // restart clock
           ms.startClock();
@@ -150,7 +155,7 @@
           }
         };
 
-        if(typeof this.presets[this.settings.difficulty] === "undefined") {
+        if(typeof this.presets[this.settings.difficulty] === 'undefined') {
           this.settings.difficulty = 'medium';
         }
 
@@ -185,7 +190,7 @@
             $tile.on('contextmenu', this.flag);
             $tile.attr('unselectable', 'on').css('user-select', 'none').on('selectstart', false);
 
-            $tile.html("&nbsp;");
+            $tile.html('&nbsp;');
             $row.append($tile);
 
             var tile = new Tile({
@@ -194,11 +199,11 @@
               j: j
             });
 
-            $tile.data("tile", tile);
+            $tile.data('tile', tile);
               row.push(tile);
           }
 
-          this.$container.find(".tiles").append($row);
+          this.$container.find('.tiles').append($row);
           this.tiles.push(row);
         }
 
@@ -239,7 +244,7 @@
               }
             }
 
-            if( ! isInArray && tilesAround[i].minesAround === 0 && ! tilesAround[i].$tile.hasClass("revealed")) {
+            if( ! isInArray && tilesAround[i].minesAround === 0 && ! tilesAround[i].$tile.hasClass('revealed')) {
               tilesToProcess.push(tilesAround[i]);
             }
 
@@ -269,7 +274,7 @@
 
         var $tile = tile.$tile;
 
-        if( ! $tile.hasClass("flagged")) {
+        if( ! $tile.hasClass('flagged')) {
 
           if( ! ms.clock) {
             ms.startClock();
@@ -286,13 +291,13 @@
                 var thisTile = ms.tiles[i][j];
 
                 if(thisTile.mined) {
-                  thisTile.$tile.addClass("exploding");
+                  thisTile.$tile.addClass('exploding');
                 }
               }
             }
 
             setTimeout(function(){
-              ms.$container.find(".exploding").removeClass("exploding").addClass("exploded");
+              ms.$container.find('.exploding').removeClass('exploding').addClass('exploded');
             }, 1200);
           }
           else if(tile.minesAround === 0 && ! ms.revealingAll) {
@@ -303,11 +308,11 @@
               tile.$tile.html(tile.minesAround);
             }
 
-            tile.$tile.addClass("revealed");
+            tile.$tile.addClass('revealed');
           }
 
           if(ms.checkVictory()) {
-            console.log("victory");
+            console.log('victory');
             ms.stopClock();
           }
         }
@@ -315,13 +320,13 @@
 
       this.dblclick = function() {
         var $tile = $(this);
-        if($tile.hasClass("revealed")) {
-          var tile = $tile.data("tile");
+        if($tile.hasClass('revealed')) {
+          var tile = $tile.data('tile');
           var nbFlagged = 0;
           var tilesAround = ms.getTilesAround(tile);
 
           for(var i = 0; i < tilesAround.length; i++) {
-            if(tilesAround[i].$tile.hasClass("flagged")) {
+            if(tilesAround[i].$tile.hasClass('flagged')) {
               nbFlagged++;
             }
           }
@@ -336,7 +341,7 @@
 
       this.click = function() {
         var $tile = $(this);
-        var tile = $tile.data("tile");
+        var tile = $tile.data('tile');
         ms.revealTile(tile);
       };
 
@@ -346,7 +351,7 @@
           for(var j = 0; j < ms.tiles[i].length; j++) {
             var $tile = ms.tiles[i][j].$tile;
 
-            if($tile.hasClass("revealed")) {
+            if($tile.hasClass('revealed')) {
               nbRevealed++;
             }
           }
@@ -384,9 +389,7 @@
               continue;
             }
             tile.minesAround++;
-            //tile.$tile.css("background", "red");
           }
-          //if(k === 0) break;
         }
       };
 
@@ -435,7 +438,7 @@
       };
 
       this.tileExists = function(i,j) {
-        if(typeof ms.tiles[i] === "undefined" || typeof ms.tiles[i][j] === "undefined") {
+        if(typeof ms.tiles[i] === 'undefined' || typeof ms.tiles[i][j] === 'undefined') {
           return false;
         }
         return true;
@@ -447,12 +450,12 @@
           var minutes = Math.floor(ms.seconds / 60);
           var seconds = ms.seconds - (minutes * 60);
           if(minutes < 10) {
-            minutes = "0" + minutes;
+            minutes = '0' + minutes;
           }
           if(seconds < 10) {
-            seconds = "0" + seconds;
+            seconds = '0' + seconds;
           }
-          ms.$container.find(".time").text(minutes + ":" + seconds);
+          ms.$container.find('.time').text(minutes + ':' + seconds);
         }, 1000);
       };
 
@@ -463,13 +466,13 @@
       this.resetClock = function() {
         ms.pauseClock();
         ms.seconds = 0;
-        ms.$container.find(".time").text("00:00");
+        ms.$container.find('.time').text('00:00');
       };
 
       this.init();
       this.draw();
 
-      $(window).on("resize", ms.draw);
+      $(window).on('resize', ms.draw);
     };
 
     var Tile = function(settings){
