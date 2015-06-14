@@ -22,6 +22,7 @@ gulp.task 'serve', ->
     server:
       baseDir: './'
   gulp.watch '*.slim', ['slim']
+  gulp.watch 'templates/**/*.slim', ['slimTemplate']
   gulp.watch 'assets/coffeescript/*.coffee', ['coffee']
   gulp.watch 'assets/sass/*.sass', ['sass']
 
@@ -30,6 +31,13 @@ gulp.task 'slim', ->
   .pipe $.plumber()
   .pipe $.slim pretty: true
   .pipe gulp.dest '.'
+  .pipe reload(stream: true)
+
+gulp.task 'slimTemplate', ->
+  gulp.src 'templates/**/*.slim'
+  .pipe $.plumber()
+  .pipe $.slim pretty: true
+  .pipe gulp.dest 'dist/templates/'
   .pipe reload(stream: true)
 
 gulp.task 'sass', ->

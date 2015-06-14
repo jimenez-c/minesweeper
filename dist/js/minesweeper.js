@@ -105,65 +105,43 @@
 
       // Make header
       this.makeHeader = function() {
-        var header = '\
-          <div class="header">\n\
-              <div class="menu-toggle header-item">\n\
-                  <button type="button">\
-                      <span class="line"></span>\n\
-                      <span class="line"></span>\n\
-                      <span class="line"></span>\n\
-                  </button>\n\
-              </div>\n\
-              <div class="nbMines header-item">0</div>\n\
-              <div class="time header-item">00:00</div>\n\
-              <div class="author header-item">\n\
-                  CJ\'s MINESWEEPER \n\
-                  <div class="version">v1.0</div>\
-              </div>\n\
-          </div>\n\
-        ';
-        var $header = $(header);
-        $header.find(".nbMines").text( ms.nbMines );
-        $header.find("button").on("click", ms.showMenu);
-        $container.prepend($header);
+        $.ajax({
+          url: 'dist/templates/header.html',
+          type: 'GET',
+          dataType: 'html'
+        })
+        .done(function(data) {
+          var $header = $(data);
+          $header.find(".nbMines").text( ms.nbMines );
+          $header.find("button").on("click", ms.showMenu);
+          $container.prepend($header);
+        })
+        .fail(function() {
+          console.log("error");
+        })
+        .always(function() {
+          console.log("complete");
+        });
       }
 
       // Make menu
       this.makeMenu = function() {
-        var menu = '\
-            <div class="menu">\n\
-                <div class="options">\n\
-                    <h2>Game options</h2>\n\
-                    <fieldset>\n\
-                        <legend>Difficulty</legend>\n\
-                        <div class="option">\n\
-                            <label>\n\
-                                <input type="radio" name="difficulty" value="easy" />\n\
-                                Easy (5x5 @ 7 mines)\n\
-                            </label>\
-                        </div>\n\
-                        <div class="option">\n\
-                            <label>\n\
-                                <input type="radio" name="difficulty" value="medium" />\n\
-                                Medium (10x10 @ 15 mines)\n\
-                            </label>\
-                        </div>\n\
-                        <div class="option">\n\
-                            <label>\n\
-                                <input type="radio" name="difficulty" value="hard" />\n\
-                                Hard (20x20 @ 30 mines)\n\
-                            </label>\
-                        </div>\n\
-                    </fieldset>\n\
-                </div>\n\
-                <div class="scores">\n\
-                    <h2>Best scores</h2>\n\
-                </div>\
-            </div>\n\
-          ';
-          var $menu = $(menu);
+        $.ajax({
+          url: 'dist/templates/menu.html',
+          type: 'GET',
+          dataType: 'html'
+        })
+        .done(function(data) {
+          var $menu = $(data);
           $menu.hide();
           $container.find(".tiles").append($menu);
+        })
+        .fail(function() {
+          console.log("error");
+        })
+        .always(function() {
+          console.log("complete");
+        });
       };
 
       // Show Menu
