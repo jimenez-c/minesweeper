@@ -94,12 +94,25 @@
     float: left; }
   .menu .options fieldset {
     margin-left: 25px;
+    margin-bottom: 25px;
     padding: 0 10px; }
     .menu .options fieldset legend {
       padding: 5px 10px;
       font-weight: bold; }
     .menu .options fieldset .option {
       padding: 10px; }
+  .menu button {
+    background: transparent;
+    color: #FFF;
+    border: solid #FFF 1px;
+    text-transform: uppercase;
+    padding: 5px;
+    cursor: pointer; }
+    .menu button:hover {
+      background: #FFF;
+      color: #000; }
+  .menu div.center {
+    text-align: center; }
   .menu .scores {
     margin-left: 4%; }
 
