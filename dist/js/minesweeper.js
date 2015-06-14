@@ -1,10 +1,27 @@
 (function($) {
 
+  /**
+   * jQuery plugin initialization
+   * @param object User provided options.
+   * @return jQuery object for chaining.
+   */
   $.fn.minesweeper = function(options) {
+
+    /**
+     * Helper function - returns a random int between two int values.
+     * @param int min lower bound
+     * @param int max higher bound
+     * @return int random value
+     */
     function mt_rand(min,max) {
       return Math.floor(Math.random()*(max-min+1)+min);
     }
 
+    /**
+     * Randomize an array.
+     * @param array The input array.
+     * @return array Randomized array.
+     */
     function shuffle(array) {
       var currentIndex = array.length, temporaryValue, randomIndex ;
 
@@ -24,6 +41,11 @@
       return array;
     }
 
+    /**
+     * Represents a minesweeper instance. Plugin main 'class'.
+     * @param jQuery object $container : the dom element the plugin was called upon.
+     * @param object options User provided options.
+     */
     var Minesweeper = function($container, options) {
       var ms = this;
 
@@ -34,8 +56,8 @@
 
 
       /**
-       * [draw description]
-       * @return {[type]}
+       * Set width & height for every tile.
+       * @return null
        */
       this.draw = function() {
         var containerWidth = ms.$container.width();
@@ -64,7 +86,10 @@
         ms.$container.find('.header').width(ms.$container.find('.tiles').width());
       };
 
-      // Make header
+      /**
+       * Generate minesweeper header.
+       * @return null
+       */
       this.makeHeader = function() {
         $.ajax({
           url: 'dist/templates/header.html',
@@ -82,7 +107,10 @@
         });
       };
 
-      // Make menu
+      /**
+       * Generate minesweeper menu
+       * @return null
+       */
       this.makeMenu = function() {
         $.ajax({
           url: 'dist/templates/menu.html',
@@ -110,11 +138,19 @@
         });
       };
 
+      /**
+       * Completely remove this instance and restore dom state as it was before calling the plugin.
+       * @return null
+       */
       this.destroy = function() {
         ms.$container.empty();
       };
 
-      // Show Menu
+
+      /**
+       * Toggle visible / hidden state of the menu.
+       * @return null
+       */
       this.showMenu = function() {
         var $menu = ms.$container.find('.menu');
         if($menu.is(':visible')) {
@@ -129,7 +165,10 @@
         }
       };
 
-      // Make tiles
+      /**
+       * Instance initialization. Initialize instance variables, check settings, creates tiles and bind events.
+       * @return null
+       */
       this.init = function() {
 
         this.tiles = [];
@@ -212,7 +251,10 @@
         ms.makeMenu();
       };
 
-      // Make flag
+      /**
+       * Set a flag on a tile. Decrements total mines number. Prevents accidental clicks.
+       * @return null
+       */
       this.flag = function() {
         var $tile = $(this);
         if( ! $tile.hasClass('revealed')) {
@@ -225,7 +267,11 @@
         return false;
       };
 
-      // Reveal all
+      /**
+       * Automatically reveals all tiles around one. Recurses if tiles around have zero mines around.
+       * @param initialTile Tile the original tile that was clicked.
+       * @return null
+       */
       this.revealAll = function(initialTile) {
         var tileToProcess = initialTile;
         var tilesToProcess = [];
@@ -270,6 +316,11 @@
         ms.revealingAll = false;
       };
 
+      /**
+       * Actions when a tile is clicked.
+       * @param tile Tile
+       * @return null
+       */
       this.revealTile = function(tile) {
 
         var $tile = tile.$tile;
@@ -318,6 +369,11 @@
         }
       };
 
+
+      /**
+       * When a tile is double-clicked, if nb of mines around == nb of flagged tiles around, reveals automatically all tiles around.
+       * @return null
+       */
       this.dblclick = function() {
         var $tile = $(this);
         if($tile.hasClass('revealed')) {
@@ -339,12 +395,20 @@
         }
       };
 
+      /**
+       * When a tile is clicked, reveals it.
+       * @return null
+       */
       this.click = function() {
         var $tile = $(this);
         var tile = $tile.data('tile');
         ms.revealTile(tile);
       };
 
+      /**
+       * Display a success video on victory, then display message + restart btn.
+       * @return null
+       */
       this.checkVictory = function() {
         var nbRevealed = 0;
         for(var i = 0; i < ms.tiles.length; i++) {
@@ -362,6 +426,11 @@
         }
       };
 
+      /**
+       * Randomly set mines inside tiles.
+       * @param safeTile Tile This tile and its neighbours should not be mined, to prevent game over on game start.
+       * @return null
+       */
       this.placeMines = function(safeTile) {
         // build available tiles array
         var availableTiles = [];
@@ -393,6 +462,11 @@
         }
       };
 
+      /**
+       * Returns all tiles around one tile.
+       * @param tile Tile The target tile.
+       * @return array An array containing references to tiles around.
+       */
       this.getTilesAround = function(tile) {
           var tilesAround = [];
           var $tile = tile.$tile;
@@ -437,6 +511,12 @@
           return tilesAround;
       };
 
+      /**
+       * Checks if a tile is in the game's tiles array.
+       * @param i int Row index in game's tiles array.
+       * @param j int Tile index in current row.
+       * @return bool True if the tile exists, false otherwise.
+       */
       this.tileExists = function(i,j) {
         if(typeof ms.tiles[i] === 'undefined' || typeof ms.tiles[i][j] === 'undefined') {
           return false;
@@ -444,6 +524,11 @@
         return true;
       };
 
+
+      /**
+       * Update elapsed time on screen every seconds.
+       * @return null
+       */
       this.startClock = function() {
         ms.clock = setInterval(function(){
           ms.seconds++;
@@ -459,22 +544,35 @@
         }, 1000);
       };
 
+      /**
+       * Stop updating time on screen every seconds.
+       * @return null
+       */
       this.pauseClock = function() {
         clearInterval(ms.clock);
       };
 
+      /**
+       * Stop clock and reset seconds count.
+       * @return null
+       */
       this.resetClock = function() {
         ms.pauseClock();
         ms.seconds = 0;
         ms.$container.find('.time').text('00:00');
       };
 
+      // all methods are declared and ready to be used : init the game.
       this.init();
       this.draw();
 
       $(window).on('resize', ms.draw);
     };
 
+    /**
+     * Represents one square on the game's board.
+     * @param settings object Initial state.
+     */
     var Tile = function(settings){
       this.mined = false;
       this.minesAround = 0;
