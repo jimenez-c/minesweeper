@@ -333,23 +333,7 @@
           }
 
           if(tile.mined) {
-            console.log('you have been eated by a Trex');
-            ms.pauseClock();
-
-            // make all mined tiles burn hahah
-            for(var i = 0; i < ms.tiles.length; i++) {
-              for(var j = 0; j < ms.tiles[i].length; j++) {
-                var thisTile = ms.tiles[i][j];
-
-                if(thisTile.mined) {
-                  thisTile.$tile.addClass('exploding');
-                }
-              }
-            }
-
-            setTimeout(function(){
-              ms.$container.find('.exploding').removeClass('exploding').addClass('exploded');
-            }, 1200);
+            ms.loose();
           }
           else if(tile.minesAround === 0 && ! ms.revealingAll) {
             ms.revealAll(tile);
@@ -367,6 +351,39 @@
             ms.stopClock();
           }
         }
+      };
+
+      /**
+       * When the player lost.
+       * @return null
+       */
+      this.loose = function() {
+        console.log('you have been eated by a Trex');
+        ms.pauseClock();
+
+        // make all mined tiles burn hahah
+        for(var i = 0; i < ms.tiles.length; i++) {
+          for(var j = 0; j < ms.tiles[i].length; j++) {
+            var thisTile = ms.tiles[i][j];
+
+            if(thisTile.mined) {
+              //thisTile.$tile.addClass('exploding');
+              thisTile.$tile.css({
+                'background-image': 'url("dist/images/explosion.gif")',
+                'background-repeat': 'no-repeat',
+                'background-position': '50%',
+                'background-color': '#000'
+              }).addClass('exploding');
+            }
+          }
+        }
+
+        setTimeout(function(){
+          ms.$container.find('.exploding').removeClass('exploding').css({
+            'background-image': 'none',
+            'background-color': '#000'
+          });
+        }, 1200);
       };
 
 

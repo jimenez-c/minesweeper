@@ -30,8 +30,6 @@
         background: #DDD; }
       .tiles .row .tile.flagged {
         background: orange; }
-      .tiles .row .tile.exploding {
-        background: url('../images/explosion.gif') no-repeat 50% #000; }
       .tiles .row .tile.exploded {
         background: red; }
 
