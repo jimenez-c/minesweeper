@@ -16,7 +16,8 @@
     display: table-row; }
     .tiles .row .tile {
       display: table-cell;
-      background: #BBB;
+      background: url("../images/grass.jpg") no-repeat;
+      background-size: cover;
       border: solid 1px #000;
       vertical-align: middle;
       text-align: center;
