@@ -141,7 +141,6 @@
         ms.destroy();
         ms.resetClock();
         ms.init();
-        ms.draw();
       };
 
       /**
@@ -183,6 +182,20 @@
         this.$container = $container;
         this.clock = null;
         this.seconds = 0;
+        this.easters = {
+          'autowin' : {
+            // 42
+            'keys' : [100, 98],
+            'current' : 0,
+            'callback' : ms.win
+          },
+          'raptor': {
+            // up, up, down, down, left, right, left, right, b, a, b, a
+            'keys' : [38,38,40,40,37,39,37,39,66,65,66,65],
+            'current': 0,
+            'callback' : ms.raptor
+          }
+        };
         this.presets = {
           'easy': {
             nbTilesX: 5,
@@ -258,6 +271,36 @@
         // make header
         ms.makeHeader();
         ms.makeMenu();
+
+
+        var $video = $('<video />').attr('src', 'dist/videos/minesweeper_fireworks.webm');
+        ms.$container.find('.tiles').append($video);
+
+        this.draw();
+
+        $(window).on('resize', ms.draw);
+        $(window).on('keydown', ms.easter);
+      };
+
+      this.easter = function(event) {
+        var keycode = event.which;
+        for(var key in ms.easters) {
+          var easter = ms.easters[key];
+          if(keycode === easter.keys[easter.current]) {
+            easter.current++;
+            if(easter.current === easter.keys.length) {
+              easter.callback();
+            }
+          }
+          else {
+            easter.current = 0;
+          }
+          console.log(easter);
+        }
+      };
+
+      this.raptor = function() {
+        console.log('grooar ?');
       };
 
       /**
@@ -459,9 +502,16 @@
         }
 
         if(nbRevealed === (ms.nbTilesX * ms.nbTilesY) - ms.nbMines) {
-          console.log('victory');
-          ms.pauseClock();
+          ms.win();
         }
+      };
+
+      this.win = function() {
+        ms.pauseClock();
+        var $video = ms.$container.find('video');
+        var video = $video.get(0);
+        $video.show();
+        video.play();
       };
 
       /**
@@ -602,9 +652,6 @@
 
       // all methods are declared and ready to be used : init the game.
       this.init();
-      this.draw();
-
-      $(window).on('resize', ms.draw);
     };
 
     /**
