@@ -125,6 +125,7 @@
           // bind difficulty to form
           $menu.find('input[name="difficulty"]').prop('checked', false).on('change', function() {
             ms.settings.difficulty = $(this).val();
+            localStorage.setItem('difficulty', $(this).val());
           });
           $menu.find('input[name="difficulty"][value="' + ms.settings.difficulty + '"]').prop('checked', 'checked');
 
@@ -200,11 +201,13 @@
           }
         };
 
-        if(typeof this.presets[this.settings.difficulty] === 'undefined') {
+        if(localStorage.getItem('difficulty')) {
+          this.settings.difficulty = localStorage.getItem('difficulty');
+        }
+        else if(typeof this.presets[this.settings.difficulty] === 'undefined') {
           this.settings.difficulty = 'medium';
         }
 
-        // TODO: Make a function for this ugly conditions
         if(
           Number.isInteger( this.settings.nbTilesX ) && this.settings.nbTilesX > 4 && this.settings.nbTilesX < 21
           && Number.isInteger( this.settings.nbTilesY ) && this.settings.nbTilesY > 4 && this.settings.nbTilesY < 21
