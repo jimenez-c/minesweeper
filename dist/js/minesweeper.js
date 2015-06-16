@@ -100,6 +100,7 @@
           var $header = $(data);
           $header.find('.nbMines').text( ms.nbMines );
           $header.find('button').on('click', ms.showMenu);
+          $header.find('.difficulty-header .difficulty span').html(' ' + ms.settings.difficulty.toUpperCase());
           $container.prepend($header);
         })
         .fail(function() {
