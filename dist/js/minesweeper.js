@@ -129,13 +129,17 @@
           $menu.find('input[name="difficulty"][value="' + ms.settings.difficulty + '"]').prop('checked', 'checked');
 
           // on restart...
-          $menu.find('button#restart').on('click', function(){
-            ms.destroy();
-            ms.init();
-            ms.draw();
+          $menu.find('button.restart').on('click', function(){
+            ms.restart();
           });
 
         });
+      };
+
+      this.restart = function() {
+        ms.destroy();
+        ms.init();
+        ms.draw();
       };
 
       /**
@@ -383,6 +387,20 @@
             'background-image': 'none',
             'background-color': '#000'
           });
+
+          setTimeout(function() {
+            $.ajax({
+              url: 'dist/templates/fail.html',
+              type: 'GET',
+              dataType: 'html',
+              success: function(html) {
+                var $html = $(html);
+                $html.find('.restart').on('click', ms.restart);
+                ms.$container.find('.tiles').append($html);
+              }
+            });
+          }, 2000);
+
         }, 1200);
       };
 
