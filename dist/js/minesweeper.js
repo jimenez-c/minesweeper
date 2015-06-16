@@ -138,6 +138,7 @@
 
       this.restart = function() {
         ms.destroy();
+        ms.resetClock();
         ms.init();
         ms.draw();
       };
@@ -159,8 +160,10 @@
         var $menu = ms.$container.find('.menu');
         if($menu.is(':visible')) {
           $menu.fadeOut();
-          // restart clock
-          ms.startClock();
+          if(ms.clock) {
+            // restart clock
+            ms.startClock();
+          }
         }
         else {
           $menu.fadeIn();
@@ -177,7 +180,6 @@
 
         this.tiles = [];
         this.$container = $container;
-        clearTimeout(this.clock);
         this.clock = null;
         this.seconds = 0;
         this.presets = {
@@ -350,10 +352,7 @@
             tile.$tile.addClass('revealed');
           }
 
-          if(ms.checkVictory()) {
-            console.log('victory');
-            ms.stopClock();
-          }
+          ms.checkVictory();
         }
       };
 
@@ -458,6 +457,7 @@
 
         if(nbRevealed === (ms.nbTilesX * ms.nbTilesY) - ms.nbMines) {
           console.log('victory');
+          ms.pauseClock();
         }
       };
 
@@ -472,8 +472,8 @@
         for(var i = 0; i < this.tiles.length; i++) {
           for(var j = 0; j < this.tiles[i].length; j++) {
             if(safeTile !== this.tiles[i][j]) {
-            availableTiles.push(this.tiles[i][j]);
-          }
+              availableTiles.push(this.tiles[i][j]);
+            }
           }
         }
 
