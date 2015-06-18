@@ -131,28 +131,29 @@ button:hover {
 .menu .options, .menu .scores {
   width: 48%;
   float: left; }
-.menu .options fieldset {
+.menu fieldset {
   margin-left: 25px;
   margin-bottom: 25px;
   padding: 0 10px; }
-  .menu .options fieldset legend {
+  .menu fieldset legend {
     padding: 5px 10px;
     font-weight: bold; }
-  .menu .options fieldset .option {
+  .menu fieldset .option {
     padding: 10px; }
 .menu div.center {
   text-align: center; }
-.menu .scores {
-  margin-left: 4%; }
 
-.overlay.fail {
+.overlay.fail, .overlay.win {
   text-align: center; }
 
-.fail .center {
+.fail .center, .win .center {
   -webkit-align-self: center;
       -ms-flex-item-align: center;
           align-self: center;
   width: 100%; }
+
+.overlay.win .score {
+  margin: 25px 0; }
 
 video {
   margin-top: -166px;

@@ -165,7 +165,7 @@ button:hover
     width: 48%
     float: left
 
-  .options fieldset
+  fieldset
     margin-left: 25px
     margin-bottom: 25px
     padding: 0 10px
@@ -181,15 +181,15 @@ button:hover
     text-align: center
 
 
-  .scores
-    margin-left: 4%
-
-.overlay.fail
+.overlay.fail, .overlay.win
   text-align: center
 
-.fail .center
+.fail .center, .win .center
   align-self: center
   width: 100%
+
+.overlay.win .score
+  margin: 25px 0
 
 video
   margin-top: -166px

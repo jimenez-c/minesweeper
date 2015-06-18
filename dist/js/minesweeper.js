@@ -140,6 +140,15 @@
           });
           $menu.find('input[name="difficulty"][value="' + ms.settings.difficulty + '"]').prop('checked', 'checked');
 
+          // set best scores text
+          $menu.find('.scores .local .option').each(function(index, item) {
+            var diff_string = $(item).find('span').attr('class');
+            var score = parseInt(localStorage.getItem('best_' + diff_string));
+            if( ! isNaN(score)) {
+              $(item).find('span').text(ms.formatSeconds(score));
+            }
+          });
+
           // on restart...
           $menu.find('button.restart').on('click', function(){
             ms.restart();
@@ -440,19 +449,8 @@
             'background-color': '#000'
           });
 
-          setTimeout(function() {
-            $.ajax({
-              url: 'dist/templates/fail.html',
-              type: 'GET',
-              dataType: 'html',
-              success: function(html) {
-                var $html = $(html);
-                $html.find('.restart').on('click', ms.restart);
-                ms.$container.find('.tiles').append($html);
-              }
-            });
-          }, 2000);
-
+          var $fail = ms.$container.find('.overlay.fail');
+          $fail.fadeIn();
         }, 1200);
       };
 
@@ -517,8 +515,24 @@
         ms.pauseClock();
         var $video = ms.$container.find('.overlay.video');
         var video = $video.find('video').get(0);
-        $video.show();
+        $video.fadeIn();
         video.play();
+        video.onended = function() {
+          var $win = ms.$container.find('.overlay.win');
+          var $score = $win.find('.score');
+          $video.fadeOut(400, function() {
+            var formatted = ms.formatSeconds(ms.seconds);
+            $score.append(formatted + ' @ ' + ms.settings.difficulty);
+            $win.fadeIn();
+
+            // store score in local storage
+            var previousValue = parseInt(localStorage.getItem('best_' + ms.settings.difficulty));
+            console.log(previousValue);
+            if(isNaN(previousValue) || ms.seconds < previousValue) {
+              localStorage.setItem('best_' + ms.settings.difficulty, ms.seconds);
+            }
+          });
+        };
       };
 
       /**
@@ -627,16 +641,21 @@
       this.startClock = function() {
         ms.clock = setInterval(function(){
           ms.seconds++;
-          var minutes = Math.floor(ms.seconds / 60);
-          var seconds = ms.seconds - (minutes * 60);
-          if(minutes < 10) {
-            minutes = '0' + minutes;
-          }
-          if(seconds < 10) {
-            seconds = '0' + seconds;
-          }
-          ms.$container.find('.time').text(minutes + ':' + seconds);
+          var formatted = ms.formatSeconds(ms.seconds);
+          ms.$container.find('.time').text(formatted);
         }, 1000);
+      };
+
+      this.formatSeconds = function(raw_seconds) {
+        var minutes = Math.floor(raw_seconds / 60);
+        var seconds = raw_seconds - (minutes * 60);
+        if(minutes < 10) {
+          minutes = '0' + minutes;
+        }
+        if(seconds < 10) {
+          seconds = '0' + seconds;
+        }
+        return minutes + ':' + seconds;
       };
 
       /**

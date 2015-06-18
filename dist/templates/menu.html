@@ -23,10 +23,41 @@
     <h2>
       Best scores
     </h2>
+    <fieldset class="local">
+      <legend>Locally</legend>
+      <div class="option">
+        Easy :&nbsp;<span class="easy">--</span>
+      </div>
+      <div class="option">
+        Medium :&nbsp;<span class="medium">--</span>
+      </div>
+      <div class="option">
+        Hard :&nbsp;<span class="hard">--</span>
+      </div>
+    </fieldset>
   </div>
 </div>
 <div class="video overlay">
   <video>
     <source src="dist/videos/minesweeper_fireworks.webm" type="video/webm" />
   </video>
+</div>
+<div class="overlay fail">
+  <div class="center">
+    <h1>
+      Game over
+    </h1>
+    <button class="restart">Restart</button>
+  </div>
+</div>
+<div class="overlay win">
+  <div class="center">
+    <h1>
+      Victory !
+    </h1>
+    <div class="score">
+      Your score :
+    </div>
+    <button class="restart">Restart</button>
+  </div>
 </div>
