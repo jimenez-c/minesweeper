@@ -283,10 +283,6 @@
         ms.makeHeader();
         ms.makeMenu();
 
-
-        var $video = $('<video />').attr('src', 'dist/videos/minesweeper_fireworks.webm');
-        ms.$container.find('.tiles').append($video);
-
         this.draw();
 
         $(window).on('resize', ms.draw);
@@ -519,8 +515,8 @@
 
       this.win = function() {
         ms.pauseClock();
-        var $video = ms.$container.find('video');
-        var video = $video.get(0);
+        var $video = ms.$container.find('.overlay.video');
+        var video = $video.find('video').get(0);
         $video.show();
         video.play();
       };
