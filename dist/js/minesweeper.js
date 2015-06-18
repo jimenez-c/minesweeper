@@ -100,12 +100,22 @@
           var $header = $(data);
           $header.find('.nbMines').text( ms.nbMines );
           $header.find('button').on('click', ms.showMenu);
-          $header.find('.difficulty-header .difficulty span').html(' ' + ms.settings.difficulty.toUpperCase());
+          var difficultyLevel = ms.getDifficultyLevel();
+          $header.find('.header-item.difficulty').removeClass('easy medium hard').addClass(ms.settings.difficulty);
           $container.prepend($header);
         })
         .fail(function() {
           console.log('error');
         });
+      };
+
+      this.getDifficultyLevel = function() {
+        switch(ms.settings.difficulty) {
+          case 'easy' : return 1;
+          case 'medium' : return 2;
+          case 'hard' : return 3;
+          return 4;
+        }
       };
 
       /**

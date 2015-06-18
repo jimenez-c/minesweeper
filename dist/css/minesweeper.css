@@ -67,6 +67,38 @@
     background: url('../images/clock.png') no-repeat 0 50%;
     padding-left: 35px;
     font-size: 22px; }
+  .header .star {
+    background: url('../images/star.png') no-repeat 50%;
+    width: 20px;
+    height: 20px;
+    position: absolute; }
+  .header .difficulty {
+    width: 40px;
+    position: relative; }
+  .header .difficulty.easy .star1 {
+    top: 7px;
+    left: 7px; }
+  .header .difficulty.easy .star2 {
+    display: none; }
+  .header .difficulty.easy .star3 {
+    display: none; }
+  .header .difficulty.medium .star1 {
+    top: 7px;
+    left: 0; }
+  .header .difficulty.medium .star2 {
+    top: 7px;
+    right: 0; }
+  .header .difficulty.medium .star3 {
+    display: none; }
+  .header .difficulty.hard .star1 {
+    top: 15px;
+    left: 0; }
+  .header .difficulty.hard .star2 {
+    top: 15px;
+    right: 0; }
+  .header .difficulty.hard .star3 {
+    top: 0;
+    left: 10px; }
 
 .overlay {
   z-index: 2;

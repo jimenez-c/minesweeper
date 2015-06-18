@@ -88,6 +88,48 @@
     padding-left: 35px
     font-size: 22px
 
+  .star
+    background: url('../images/star.png') no-repeat 50%
+    width: 20px
+    height: 20px
+    position: absolute
+
+  .difficulty
+    width: 40px
+    position: relative
+
+  .difficulty.easy
+    .star1
+      top: 7px
+      left: 7px
+    .star2
+      display: none
+    .star3
+      display: none
+
+  .difficulty.medium
+    .star1
+      top: 7px
+      left: 0
+    .star2
+      top: 7px
+      right: 0
+    .star3
+      display: none
+
+  .difficulty.hard
+    .star1
+      top: 15px
+      left: 0
+    .star2
+      top: 15px
+      right: 0
+    .star3
+      top: 0
+      left:10px;
+
+
+
 .overlay
   z-index: 2
   position: absolute
