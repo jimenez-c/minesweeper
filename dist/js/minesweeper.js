@@ -209,6 +209,24 @@
             ms.restart();
           });
 
+          // cross domain request to get scores
+          $.ajax({
+            url: "http://cyril-jimenez.fr/minesweeper.php",
+            dataType: 'jsonp',
+            crossDomain: true,
+            success: function(output) {
+              $menu.find('.scores .online .option').each(function(index, item) {
+                var classname = $(item).find('span').attr('class');
+                if(typeof output[classname] !== 'undefined') {
+                  $(item).find('span').text(ms.formatSeconds(output[classname]));
+                }
+              });
+            },
+            error: function() {
+              console.log('error');
+            }
+          });
+
         });
       };
 
@@ -583,6 +601,19 @@
             if(isNaN(previousValue) || ms.seconds < previousValue) {
               localStorage.setItem('best_' + ms.settings.difficulty, ms.seconds);
             }
+
+            // cross domain request to get scores
+            $.ajax({
+              url: "http://cyril-jimenez.fr/minesweeper.php?seconds=" + ms.seconds + '&difficulty=' + ms.settings.difficulty,
+              dataType: 'jsonp',
+              crossDomain: true,
+              success: function(output) {
+                $score.append('<p>' + output + '</p>');
+              },
+              error: function() {
+                console.log('error');
+              }
+            });
           });
         };
       };
