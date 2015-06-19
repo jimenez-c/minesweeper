@@ -51,7 +51,8 @@
 
       this.settings = $.extend({
         // These are the defaults.
-        difficulty: 'medium'
+        difficulty: 'medium',
+        fullscreen: false
       }, options );
 
 
@@ -60,8 +61,19 @@
        * @return null
        */
       this.draw = function() {
+
+        // if fullscreen, update container
+        if(ms.settings.fullscreen) {
+          ms.$container.css({
+            position:'absolute',
+            width:'100%',
+            height:'100%',
+            left:'50%'
+          })
+        }
+
         var containerWidth = ms.$container.width();
-        var containerHeight = ms.$container.height() - ms.$container.find('.header').outerHeight() - 10;
+        var containerHeight = ms.$container.height() - ms.$container.find('.header').outerHeight();
 
         var containerMin = Math.min(containerWidth, containerHeight);
         var tileSize = 0;
@@ -83,7 +95,15 @@
             });
           }
         }
-        ms.$container.find('.header').width(ms.$container.find('.tiles').width());
+        var tilesWidth = ms.$container.find('.tiles').width();
+        ms.$container.find('.header').width(tilesWidth);
+
+        if(ms.settings.fullscreen) {
+          ms.$container.css({
+            'marginLeft': - tilesWidth / 2,
+            'width': tilesWidth
+          });
+        }
       };
 
       /**
@@ -103,6 +123,7 @@
           var difficultyLevel = ms.getDifficultyLevel();
           $header.find('.header-item.difficulty').removeClass('easy medium hard').addClass(ms.settings.difficulty);
           $container.prepend($header);
+          ms.draw();
         })
         .fail(function() {
           console.log('error');
@@ -311,7 +332,6 @@
           else {
             easter.current = 0;
           }
-          console.log(easter);
         }
       };
 
@@ -423,7 +443,6 @@
        * @return null
        */
       this.loose = function() {
-        console.log('you have been eated by a Trex');
         ms.pauseClock();
 
         // make all mined tiles burn hahah
@@ -527,7 +546,6 @@
 
             // store score in local storage
             var previousValue = parseInt(localStorage.getItem('best_' + ms.settings.difficulty));
-            console.log(previousValue);
             if(isNaN(previousValue) || ms.seconds < previousValue) {
               localStorage.setItem('best_' + ms.settings.difficulty, ms.seconds);
             }

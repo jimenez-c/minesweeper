@@ -1,6 +1,4 @@
 $ ->
-  resize()
-  $("#ms").minesweeper()
-
-resize = ->
-  $("#ms")
+  $("#ms").minesweeper({
+  	fullscreen: true
+  })
