@@ -48,6 +48,7 @@
   display: table
   width: 100%
   padding: 10px 0
+  background-color: #FFF
 
   > .header-item
     display: table-cell
@@ -82,6 +83,14 @@
     background: url('../images/nb_mines.png') no-repeat 0 50%
     padding-left: 45px
     font-size: 22px
+
+  .fullscreen
+    text-align: right
+
+  .fullscreen button
+    background: url('../images/fullscreen.gif') no-repeat 0 50%
+    width: 30px
+    height: 30px
 
   .time
     background: url('../images/clock.png') no-repeat 0 50%
@@ -200,3 +209,32 @@ video
 button::-moz-focus-inner
   border: 0
 
+:-webkit-full-screen
+  background: #FFF
+:-moz-full-screen
+  background: #FFF
+:full-screen
+  background: #FFF
+:fullscreen
+  background: #FFF
+
+:-webkit-full-screen
+  body
+    background: #FFF
+  #ms
+    margin: auto
+:-moz-full-screen
+  body
+    background: #FFF
+  #ms
+    margin: auto
+:full-screen
+  body
+    background: #FFF
+  #ms
+    margin: auto
+:fullscreen
+  body
+    background: #FFF
+  #ms
+    margin :auto

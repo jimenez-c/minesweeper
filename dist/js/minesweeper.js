@@ -106,6 +106,39 @@
         }
       };
 
+      this.toggleFullscreen = function() {
+        if (document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled) {
+
+          // are we full-screen?
+          if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+            // exit full-screen
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            }
+          }
+          else {
+            var i = ms.$container.get(0);
+
+            // go full-screen
+            if (i.requestFullscreen) {
+                i.requestFullscreen();
+            } else if (i.webkitRequestFullscreen) {
+                i.webkitRequestFullscreen();
+            } else if (i.mozRequestFullScreen) {
+                i.mozRequestFullScreen();
+            } else if (i.msRequestFullscreen) {
+                i.msRequestFullscreen();
+            }
+          }
+        }
+      };
+
       /**
        * Generate minesweeper header.
        * @return null
@@ -119,7 +152,8 @@
         .done(function(data) {
           var $header = $(data);
           $header.find('.nbMines').text( ms.nbMines );
-          $header.find('button').on('click', ms.showMenu);
+          $header.find('.menu-toggle button').on('click', ms.showMenu);
+          $header.find('.fullscreen button').on('click', ms.toggleFullscreen);
           var difficultyLevel = ms.getDifficultyLevel();
           $header.find('.header-item.difficulty').removeClass('easy medium hard').addClass(ms.settings.difficulty);
           $container.prepend($header);

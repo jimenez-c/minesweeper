@@ -36,7 +36,8 @@
 .header {
   display: table;
   width: 100%;
-  padding: 10px 0; }
+  padding: 10px 0;
+  background-color: #FFF; }
   .header > .header-item {
     display: table-cell;
     vertical-align: middle; }
@@ -63,6 +64,12 @@
     background: url('../images/nb_mines.png') no-repeat 0 50%;
     padding-left: 45px;
     font-size: 22px; }
+  .header .fullscreen {
+    text-align: right; }
+  .header .fullscreen button {
+    background: url('../images/fullscreen.gif') no-repeat 0 50%;
+    width: 30px;
+    height: 30px; }
   .header .time {
     background: url('../images/clock.png') no-repeat 0 50%;
     padding-left: 35px;
@@ -163,3 +170,59 @@ video {
 
 button::-moz-focus-inner {
   border: 0; }
+
+:-webkit-full-screen {
+  background: #FFF; }
+
+:-moz-full-screen {
+  background: #FFF; }
+
+:full-screen {
+  background: #FFF; }
+
+:-webkit-full-screen {
+  background: #FFF; }
+
+:-moz-full-screen {
+  background: #FFF; }
+
+:-ms-fullscreen {
+  background: #FFF; }
+
+:fullscreen {
+  background: #FFF; }
+
+:-webkit-full-screen body {
+  background: #FFF; }
+:-webkit-full-screen #ms {
+  margin: auto; }
+
+:-moz-full-screen body {
+  background: #FFF; }
+:-moz-full-screen #ms {
+  margin: auto; }
+
+:full-screen body {
+  background: #FFF; }
+:full-screen #ms {
+  margin: auto; }
+
+:-webkit-full-screen body {
+  background: #FFF; }
+
+:-moz-full-screen body {
+  background: #FFF; }
+
+:-ms-fullscreen body {
+  background: #FFF; }
+
+:fullscreen body {
+  background: #FFF; }
+:-webkit-full-screen #ms {
+  margin: auto; }
+:-moz-full-screen #ms {
+  margin: auto; }
+:-ms-fullscreen #ms {
+  margin: auto; }
+:fullscreen #ms {
+  margin: auto; }
